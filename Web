@@ -1,0 +1,45 @@
+#!/usr/bin/env python2c
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Apr 12 16:48:15 2017
+
+@author: oliver
+"""
+
+import webbrowser
+from bs4 import BeautifulSoup
+import csv
+import requests
+from lxml import etree
+import re
+        
+r = requests.get('http://www.nhl.com/scores/htmlreports/20162017/GS021230.HTM')
+data_placeholder = r.text
+soup = BeautifulSoup(data_placeholder)
+souptable = soup.table
+print souptable
+
+visitor = souptable.find(id='Visitor')
+for a in visitor.find_all('td', {'style' : 'font-size: 12px;font-weight:bold'}):
+    soupv = a.get_text()
+soupvisitor = souptable.find(id='Visitor')
+for a in visitor.find_all('td', {'style' : 'font-size: 10px;font-weight:bold'}):
+    for question in a.find_all():
+        soupvt = question.previous_sibling.strip("br")
+for a in visitor.find_all('td', {'style' : 'font-size: 40px;font-weight:bold'}):
+    soupvs = a.get_text()
+print soupv
+print soupvt
+print soupvs
+home = souptable.find(id='Home')
+for a in home.find_all('td', {'style' : 'font-size: 12px;font-weight:bold'}):
+    souph = a.get_text()
+for a in home.find_all('td', {'style' : 'font-size: 10px;font-weight:bold'}):
+    for question in a.find_all():
+        soupht = question.previous_sibling.strip("br")
+for a in home.find_all('td', {'style' : 'font-size: 40px;font-weight:bold'}):
+    souphs = a.get_text()
+print souph
+print soupht
+print souphs
+
